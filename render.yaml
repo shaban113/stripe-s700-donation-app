@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: stripe-s700-donation-app
+    env: ruby
+    buildCommand: bundle install
+    startCommand: bundle exec ruby app.rb -o 0.0.0.0 -p $PORT
+    rootDir: server
