@@ -1,0 +1,26 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: stripe_s700_donation_app_development
+  pool: 5
+  username: your_db_username
+  password: your_db_password
+  host: localhost
+
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: stripe_s700_donation_app_test
+  pool: 5
+  username: your_db_username
+  password: your_db_password
+  host: localhost
+
+production:
+  adapter: postgresql
+  encoding: unicode
+  database: stripe_s700_donation_app_production
+  pool: 5
+  username: <%= ENV['DB_USERNAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+  host: <%= ENV['DB_HOST'] %>
