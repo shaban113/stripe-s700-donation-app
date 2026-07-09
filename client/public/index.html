@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIB Gala 2025</title>
+    <link rel="icon" type="image/jpeg" href="/assets/logo.jpg">
+    <script src="https://js.stripe.com/terminal/v1/"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .donation-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .logo {
+            max-width: 200px;
+            height: auto;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+        
+        .preset-amounts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .preset-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 1.3em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .preset-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+        
+        .preset-btn.selected {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            transform: translateY(-2px);
+        }
+        
+        .input-group {
+            margin: 15px 0;
+        }
+        
+        .input-group label {
+            display: block;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1.1em;
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .donate-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            border: none;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 1.3em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .donate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+        
+        .donate-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="donation-container">
+        <div class="header">
+            <img src="assets/logo.jpg.webp" alt="MIB Gala 2025 Logo" class="logo">
+            <h1>🎯 MIB Gala 2025</h1>
+            <p>Support our gala with your generous contribution</p>
+        </div>
+        
+        <div class="preset-amounts">
+            <button class="preset-btn" data-amount="10000">$100</button>
+            <button class="preset-btn" data-amount="25000">$250</button>
+            <button class="preset-btn" data-amount="50000">$500</button>
+            <button class="preset-btn" data-amount="100000">$1,000</button>
+        </div>
+        
+        <div class="input-group">
+            <label for="custom-amount">Custom Amount ($)</label>
+            <input type="number" id="custom-amount" placeholder="Enter amount" min="0.01" step="0.01">
+        </div>
+        
+        <div class="input-group">
+            <label for="donor-name">Your Name (Optional)</label>
+            <input type="text" id="donor-name" placeholder="Anonymous">
+        </div>
+        
+        <div class="input-group">
+            <label for="message">Message (Optional)</label>
+            <input type="text" id="message" placeholder="Thank you for supporting MIB Gala 2025!">
+        </div>
+        
+        <button class="donate-btn" id="create-donation">
+            💝 Create Gala Donation
+        </button>
+        
+        <div class="status hidden" id="status"></div>
+    </div>
+
+    <script>
+        let terminal;
+        let connectedReader = null;
+        let currentDonation = null;
+        
+        // Initialize Terminal
+        async function initializeTerminal() {
+            try {
+                terminal = StripeTerminal.create({
+                    onFetchConnectionToken: async () => {
+                            const response = await fetch('https://api.mosqueofislamicbrotherhood.org/api/connection_token', { method: 'POST' });
+                        const { secret } = await response.json();
+                        return secret;
+                    },
+                    onUnexpectedReaderDisconnect: () => {
+                        updateStatus('Reader disconnected unexpectedly', 'error');
+                    }
+                });
+                
+                console.log('Terminal initialized for MIB Gala 2025');
+                updateStatus('Terminal initialized. Looking for payment device...', 'info');
+                
+                // Auto-discover and connect to reader
+                await discoverAndConnectReader();
+                
+            } catch (error) {
+                console.error('Terminal initialization failed:', error);
+                updateStatus('Failed to initialize payment terminal', 'error');
+            }
+        }
+        
+        async function discoverAndConnectReader() {
+            try {
+                updateStatus('Looking for S700 payment terminal...', 'info');
+                
+                const discoverResult = await terminal.discoverReaders({
+                    simulated: false,
+                    device_type: 'stripe_s700'
+                });
+                
+                if (discoverResult.error) {
+                    throw new Error(discoverResult.error.message);
+                }
+                
+                if (discoverResult.discoveredReaders.length === 0) {
+                    updateStatus('No S700 terminal found. Please check connection and try refreshing.', 'error');
+                    return;
+                }
+                
+                const reader = discoverResult.discoveredReaders[0];
+                updateStatus('Connecting to S700 terminal...', 'info');
+                
+                const connectResult = await terminal.connectReader(reader);
+                
+                if (connectResult.error) {
+                    throw new Error(connectResult.error.message);
+                }
+                
+                connectedReader = connectResult.reader;
+                updateStatus('✅ S700 terminal connected and ready for MIB Gala 2025 donations!', 'success');
+                
+            } catch (error) {
+                console.error('Reader connection failed:', error);
+                updateStatus(`Terminal connection failed: ${error.message}`, 'error');
+            }
+        }
+        
+        // Preset amount selection
+        document.querySelectorAll('.preset-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Clear previous selection
+                document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('selected'));
+                
+                // Select this button
+                btn.classList.add('selected');
+                
+                // Set amount in custom field
+                const amount = parseInt(btn.dataset.amount) / 100;
+                document.getElementById('custom-amount').value = amount;
+            });
+        });
+        
+        // Create donation
+        document.getElementById('create-donation').addEventListener('click', async () => {
+            try {
+                if (!connectedReader) {
+                    updateStatus('No S700 terminal connected. Please refresh and try again.', 'error');
+                    return;
+                }
+                
+                const customAmount = parseFloat(document.getElementById('custom-amount').value);
+                const donorName = document.getElementById('donor-name').value || 'Anonymous';
+                const message = document.getElementById('message').value || '';
+                
+                if (!customAmount || customAmount < 0.01) {
+                    updateStatus('Please enter a valid amount (minimum $0.01)', 'error');
+                    return;
+                }
+                
+                const amountCents = Math.round(customAmount * 100);
+                
+                updateStatus(`Creating MIB Gala 2025 donation for $${customAmount.toFixed(2)}...`, 'info');
+                
+                // Create donation payment
+                    const donationResponse = await fetch('https://api.mosqueofislamicbrotherhood.org/api/donations', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        amount: amountCents,
+                        donor_name: donorName,
+                        message: message,
+                        event_name: 'MIB Gala 2025'
+                    })
+                });
+                
+                const donationResult = await donationResponse.json();
+                
+                if (!donationResult.success) {
+                    throw new Error(donationResult.error);
+                }
+                
+                currentDonation = donationResult;
+                
+                updateStatus('Processing payment on S700 terminal...', 'info');
+                
+                // Process payment on S700
+                    const processResponse = await fetch('https://api.mosqueofislamicbrotherhood.org/api/process_donation', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        reader_id: connectedReader.id,
+                        payment_intent_id: donationResult.donation_details.payment_id
+                    })
+                });
+                
+                const processResult = await processResponse.json();
+                
+                if (processResult.success) {
+                    updateStatus(`💝 MIB Gala 2025 donation ready! Please complete payment on S700 terminal for $${customAmount.toFixed(2)} from ${donorName}`, 'success');
+                } else {
+                    throw new Error(processResult.error);
+                }
+                
+            } catch (error) {
+                console.error('Donation creation failed:', error);
+                updateStatus(`Donation failed: ${error.message}`, 'error');
+            }
+        });
+        
+        function updateStatus(message, type) {
+            const statusEl = document.getElementById('status');
+            statusEl.textContent = message;
+            statusEl.className = `status ${type}`;
+            statusEl.classList.remove('hidden');
+            
+            console.log(`${type.toUpperCase()}: ${message}`);
+        }
+        
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', initializeTerminal);
+    </script>
+</body>
+</html>
