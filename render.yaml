@@ -3,4 +3,4 @@ services:
     name: stripe-s700-donation-app
     env: ruby
     buildCommand: bundle install
-    startCommand: cd server && bundle exec ruby app.rb -o 0.0.0.0 -p $PORT
+    startCommand: bundle exec ruby server/app.rb -o 0.0.0.0 -p $PORT
