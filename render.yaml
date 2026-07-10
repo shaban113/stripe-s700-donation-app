@@ -4,3 +4,6 @@ services:
     env: ruby
     buildCommand: bundle install
     startCommand: bundle exec ruby /opt/render/project/src/app.rb -o 0.0.0.0 -p $PORT
+    envVars:
+      - key: ALLOWED_ORIGINS
+        value: https://donate.mosqueofislamicbrotherhood.org,https://mosqueofislamicbrotherhood.org,https://www.mosqueofislamicbrotherhood.org,http://localhost:3000,http://127.0.0.1:3000
