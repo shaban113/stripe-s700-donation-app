@@ -1,6 +1,12 @@
 import { loadStripe } from '@stripe/stripe-js';
 
-const stripePromise = loadStripe('your-publishable-key-here');
+const publishableKey = process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY || (typeof window !== 'undefined' ? window.__STRIPE_PUBLISHABLE_KEY__ : undefined);
+
+if (!publishableKey) {
+  throw new Error('Missing Stripe publishable key. Set REACT_APP_STRIPE_PUBLISHABLE_KEY for the frontend build.');
+}
+
+const stripePromise = loadStripe(publishableKey);
 
 export const createPaymentIntent = async (amount) => {
   const response = await fetch('/api/payment_intents', {

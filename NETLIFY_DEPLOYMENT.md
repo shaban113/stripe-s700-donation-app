@@ -43,6 +43,7 @@ git push -u origin main
    - Base directory: `client`
    - Build command: `npm run build`
    - Publish directory: `client/build`
+   - Environment variable: `REACT_APP_STRIPE_PUBLISHABLE_KEY=<your Stripe publishable key>`
 5. Deploy
 
 ---
