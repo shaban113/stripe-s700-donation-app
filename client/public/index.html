@@ -209,11 +209,15 @@
         let terminal;
         let connectedReader = null;
         let currentDonation = null;
-        const API_BASE_URL = window.API_BASE_URL || window.__API_BASE_URL__ || 'https://api.mosqueofislamicbrotherhood.org';
+        const API_BASE_URL = window.API_BASE_URL || window.__API_BASE_URL__ || ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://127.0.0.1:4244' : 'https://api.mosqueofislamicbrotherhood.org');
+
+        function apiUrl(path) {
+            return `${API_BASE_URL}${path}`;
+        }
 
         async function fetchConnectionToken() {
             const candidateUrls = [
-                `${API_BASE_URL}/api/connection_token`,
+                apiUrl('/api/connection_token'),
                 '/api/connection_token'
             ];
 
@@ -344,7 +348,7 @@
                 updateStatus(`Creating MIB Gala 2025 donation for $${customAmount.toFixed(2)}...`, 'info');
                 
                 // Create donation payment
-                    const donationResponse = await fetch('https://api.mosqueofislamicbrotherhood.org/api/donations', {
+                    const donationResponse = await fetch(apiUrl('/api/donations'), {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -366,7 +370,7 @@
                 updateStatus('Processing payment on S700 terminal...', 'info');
                 
                 // Process payment on S700
-                    const processResponse = await fetch('https://api.mosqueofislamicbrotherhood.org/api/process_donation', {
+                    const processResponse = await fetch(apiUrl('/api/process_donation'), {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({

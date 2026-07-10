@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-// Use a relative path for production (same domain), or set your full production API URL here:
-const API_BASE_URL = '/api'; // For example, https://yourdomain.com/api if your backend is at /api
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || '/api';
 
 export const submitDonation = async (amount) => {
   try {
